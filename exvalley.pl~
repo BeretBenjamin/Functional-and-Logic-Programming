@@ -1,0 +1,41 @@
+% Base case: an empty list is a valley
+is_valley([]).
+
+% Case 1: a single element list is a valley
+is_valley([_]).
+
+% Case 2: check if the list is a valley
+is_valley([H | T]) :-
+    valley_check(T, H).
+
+valley_check([], _).
+
+valley_check([H | T], Prev) :-
+    H < Prev,
+    decreasing_sequence(T, H),
+    increasing_sequence(T).
+
+decreasing_sequence([], _).
+
+decreasing_sequence([H | T], Prev) :-
+    H < Prev,
+    decreasing_sequence(T, H).
+
+increasing_sequence([H | T]) :-
+    increasing_sequence(T, H).
+
+increasing_sequence([], _).
+
+increasing_sequence([H | T], Prev) :-
+    H > Prev,
+    increasing_sequence(T, H).
+
+% Example usage:
+% ?- is_valley([3, 2, 1, 2, 3]).
+% true.
+
+% ?- is_valley([1, 2, 3, 2, 1]).
+% true.
+
+% ?- is_valley([1, 2, 3, 4, 5]).
+% false.
